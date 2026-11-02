@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>adblitz: system-wide ad blocker for Windows</title>
+<meta name="description" content="adblitz blocks ads, trackers, malware and phishing for every app on your Windows PC, at the network level. No browser extension.">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --panel: #14141c;
+  --line: #2a2a38;
+  --text: #e8e8ed;
+  --muted: #a0a0b0;
+  --accent: #22d3ee;
+  --accent-ink: #06222a;
+  --warn: #fbbf24;
+  --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main, footer { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+header { padding: 88px 0 64px; }
+.brand { font: 600 15px var(--mono); color: var(--accent); margin-bottom: 20px; }
+h1 { font-size: clamp(34px, 7vw, 56px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
+.lede { font-size: 20px; color: var(--muted); max-width: 40em; margin-bottom: 32px; }
+.button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  padding: 14px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.button:hover { filter: brightness(1.1); }
+.meta { color: var(--muted); font-size: 14px; margin-top: 14px; }
+section { padding: 44px 0; border-top: 1px solid var(--line); }
+h2 { font-size: 26px; letter-spacing: -0.01em; margin-bottom: 20px; }
+h3 { font-size: 17px; margin-bottom: 6px; }
+p + p { margin-top: 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+.card p { color: var(--muted); font-size: 15px; }
+ol, ul { padding-left: 22px; }
+li + li { margin-top: 10px; }
+.notice { border-left: 3px solid var(--warn); background: var(--panel); padding: 16px 20px; border-radius: 0 10px 10px 0; margin-bottom: 20px; }
+code { font-family: var(--mono); font-size: 0.85em; overflow-wrap: anywhere; }
+a { color: var(--accent); }
+footer { padding-top: 32px; padding-bottom: 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">adblitz</div>
+    <h1>Block ads in every app, not just your browser.</h1>
+    <p class="lede">adblitz filters traffic for your whole Windows PC at the network level, so there is no browser extension to install and no extension limits to work around.</p>
+    <a class="button" href="/download/adblitz.exe">Download for Windows</a>
+    <p class="meta">Version 0.1.0 · 64-bit · 13.9 MB</p>
+  </header>
+
+  <section>
+    <h2>What it does</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Blocks at two layers</h3>
+        <p>A local DNS resolver blocks ad and tracker domains for all apps. A local filtering proxy applies uBlock Origin and Adblock Plus rule syntax to each request.</p>
+      </div>
+      <div class="card">
+        <h3>Pages don't notice</h3>
+        <p>Blocked requests get a harmless placeholder response instead of a connection error, which avoids many broken pages.</p>
+      </div>
+      <div class="card">
+        <h3>Strips YouTube ads</h3>
+        <p>Ad data is removed from YouTube's responses before they reach the player.</p>
+      </div>
+      <div class="card">
+        <h3>Finds hidden trackers</h3>
+        <p>CNAME uncloaking catches trackers disguised as a site's own subdomains.</p>
+      </div>
+      <div class="card">
+        <h3>Warns about threats</h3>
+        <p>Known malware and phishing domains are blocked, with a warning page in the browser and a Windows notification.</p>
+      </div>
+      <div class="card">
+        <h3>Stays in your control</h3>
+        <p>A tray icon and dashboard show what was blocked. Allow ads on a site with a right-click, or pause everything for up to 6 hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Install</h2>
+    <ol>
+      <li>Download and run <code>adblitz.exe</code>.</li>
+      <li>If Windows SmartScreen appears, choose <strong>More info</strong>, then <strong>Run anyway</strong>. adblitz is not code-signed yet.</li>
+      <li>Approve the administrator prompt. Blocking starts right away and resumes each time you sign in.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Before you install</h2>
+    <div class="notice">
+      <p><strong>adblitz decrypts your HTTPS traffic on your own PC so it can filter it.</strong> To do that it adds a root certificate, unique to your install, to Windows' trusted store. Only install it if you are comfortable with that.</p>
+    </div>
+    <ul>
+      <li><strong>System changes:</strong> it points Windows' proxy and DNS settings at itself, and adds the certificate, a Firefox policy and a logon task. If adblitz stops, browsers go direct and DNS falls back to your original servers.</li>
+      <li><strong>Local key:</strong> the certificate's private key is generated on your PC and is designed never to leave it.</li>
+      <li><strong>Sensitive hosts:</strong> hosts on the exclusions list are passed through without being decrypted, and so are private network addresses.</li>
+      <li><strong>Coverage:</strong> apps that ignore the Windows proxy still get DNS blocking, but not per-request filtering.</li>
+      <li><strong>VPNs:</strong> proxied browser traffic leaves from adblitz, so per-app VPN rules don't apply to it. adblitz warns you when a VPN is connected.</li>
+      <li><strong>uBlock Origin:</strong> adblitz is meant to replace it, not run beside it.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Uninstall</h2>
+    <p>Go to <strong>Settings &gt; Apps</strong> and uninstall adblitz. This restores your network settings and removes the certificate, Firefox policy, logon task and program files.</p>
+  </section>
+</main>
+<footer>
+  adblitz is built by <a href="https://athenalab.net/">Athena AI Lab</a>. Contact: <a href="mailto:contact@athenalab.net">contact@athenalab.net</a>
+</footer>
+</body>
+</html>
